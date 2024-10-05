@@ -1,20 +1,43 @@
 mod cli;
-mod commands;
 mod error;
+mod program;
 mod project;
 mod tmux;
 
 use crate::cli::Cli;
 use clap::Parser;
-use commands::Program;
 use error::Result;
+use log::{error, info};
+use program::Program;
 
-fn main() -> Result<()> {
+fn main() {
+    // Initialize logger
+    env_logger::init();
+
+    if let Err(e) = run() {
+        eprintln!("Error: {}", e);
+        std::process::exit(1);
+    }
+}
+
+fn run() -> Result<()> {
+    info!("Starting tmux session manager");
+
     let cli = Cli::parse();
 
     let program = Program::new();
-    program.ensure_required_dependencies(&["fzf", "git", "tmux"])?;
+
+    info!("Checking dependencies");
+    match program.ensure_required_dependencies(&["fzf", "git", "tmux"]) {
+        Ok(_) => info!("All dependencies are installed"),
+        Err(e) => {
+            return Err(e);
+        }
+    }
+
+    info!("Executing main program logic");
     program.execute(cli.term)?;
 
+    info!("Program completed successfully");
     Ok(())
 }

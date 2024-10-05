@@ -13,7 +13,11 @@ impl Program {
     }
 
     fn command_exists(&self, cmd: &str) -> bool {
-        Command::new("which").arg(cmd).output().is_ok()
+        Command::new("which")
+            .arg(cmd)
+            .output()
+            .map(|output| output.status.success())
+            .unwrap_or(false)
     }
 
     pub fn ensure_required_dependencies(&self, dependencies: &[&str]) -> Result<()> {
