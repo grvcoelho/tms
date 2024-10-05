@@ -3,7 +3,7 @@ use crate::{
     project::Project,
     tmux::Tmux,
 };
-use std::{path::PathBuf, process::Command};
+use std::path::PathBuf;
 use which::which;
 
 pub struct Program;

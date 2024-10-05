@@ -7,7 +7,7 @@ mod tmux;
 use crate::cli::Cli;
 use clap::Parser;
 use error::Result;
-use log::{error, info};
+use log::info;
 use program::Program;
 
 fn main() {
