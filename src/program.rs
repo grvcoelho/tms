@@ -4,6 +4,7 @@ use crate::{
     tmux::Tmux,
 };
 use std::{path::PathBuf, process::Command};
+use which::which;
 
 pub struct Program;
 
@@ -12,19 +13,9 @@ impl Program {
         Program {}
     }
 
-    fn command_exists(&self, cmd: &str) -> bool {
-        Command::new("which")
-            .arg(cmd)
-            .output()
-            .map(|output| output.status.success())
-            .unwrap_or(false)
-    }
-
     pub fn ensure_required_dependencies(&self, dependencies: &[&str]) -> Result<()> {
-        for cmd in dependencies.iter() {
-            if !self.command_exists(cmd) {
-                return Err(Error::MissingDependency(cmd.to_string()));
-            }
+        for &cmd in dependencies {
+            which(cmd).map_err(|_| Error::MissingDependency(cmd.to_string()))?;
         }
 
         Ok(())

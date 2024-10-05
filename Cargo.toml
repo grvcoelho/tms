@@ -13,3 +13,5 @@ keywords = ["tmux", "git", "tmux-sessionizer", "fzf", "tms"]
 clap = { version = "4.5.19", features = ["derive"] }
 env_logger = "0.11.5"
 log = "0.4.22"
+thiserror = "1.0.64"
+which = "6.0.3"

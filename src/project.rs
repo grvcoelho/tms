@@ -49,7 +49,7 @@ impl Project {
             info!("Repository not found. Attempting to clone with ghq...");
             let output = Command::new("ghq").arg("get").arg(repo_path).output()?;
             if !output.status.success() {
-                return Err(Error::ProjectError("Failed to clone repository".into()));
+                return Err(Error::CloneProject(repo_path.to_string()));
             }
         }
 

@@ -15,7 +15,7 @@ fn main() {
     env_logger::init();
 
     if let Err(e) = run() {
-        eprintln!("Error: {}", e);
+        eprintln!("tms error: {}", e);
         std::process::exit(1);
     }
 }
