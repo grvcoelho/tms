@@ -11,3 +11,4 @@ keywords = ["tmux", "git", "tmux-sessionizer", "fzf", "tms"]
 
 [dependencies]
 clap = { version = "4.5.19", features = ["derive"] }
+log = "0.4.22"

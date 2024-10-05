@@ -1,22 +1,20 @@
 mod cli;
 mod commands;
-mod utils;
+mod error;
+mod project;
+mod tmux;
 
 use crate::cli::Cli;
 use clap::Parser;
-use std::process::exit;
+use commands::Program;
+use error::Result;
 
-fn main() {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    // Check for required commands
-    if let Err(e) = utils::check_required_commands() {
-        eprintln!("Error: {}", e);
-        exit(1);
-    }
+    let program = Program::new();
+    program.ensure_required_dependencies(&["fzf", "git", "tmux"])?;
+    program.execute(cli.term)?;
 
-    if let Err(e) = commands::execute(cli.term) {
-        eprintln!("Error: {}", e);
-        exit(1);
-    }
+    Ok(())
 }
