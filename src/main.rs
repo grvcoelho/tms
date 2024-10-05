@@ -15,7 +15,7 @@ fn main() {
         exit(1);
     }
 
-    if let Err(e) = commands::execute(cli.path) {
+    if let Err(e) = commands::execute(cli.term) {
         eprintln!("Error: {}", e);
         exit(1);
     }
