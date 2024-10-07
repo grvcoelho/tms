@@ -22,7 +22,7 @@ impl Project {
 
         let output = Command::new("sh")
             .arg("-c")
-            .arg("ghq list -p | fzf")
+            .arg("ghq list | fzf")
             .output()?;
 
         Ok(String::from_utf8(output.stdout)?.trim().to_string())
@@ -33,7 +33,7 @@ impl Project {
 
         let output = Command::new("sh")
             .arg("-c")
-            .arg(format!("ghq list -p | fzf -q \"{}\" -1", query))
+            .arg(format!("ghq list | fzf -q \"{}\" -1", query))
             .output()?;
 
         Ok(String::from_utf8(output.stdout)?.trim().to_string())
