@@ -1,8 +1,8 @@
 class Tms < Formula
     desc "A CLI tool for managing tmux sessions with git projects"
     homepage "https://github.com/grvcoelho/tms"
-    url "https://github.com/grvcoelho/tms/archive/refs/tags/v1.1.1.tar.gz"
-    sha256 "replace_with_actual_sha256"
+    url "https://github.com/grvcoelho/tms/archive/refs/tags/v1.3.0.tar.gz"
+    sha256 "12a638a4476a5ccf7420aaeea475cc044601efe257056184b0a8186dc485e96e"
     license "MIT"
   
     depends_on "go" => :build
@@ -12,6 +12,6 @@ class Tms < Formula
     end
   
     test do
-      assert_match "tms version 1.1.1", shell_output("#{bin}/tms --version")
+      assert_match "tms version 1.3.0")
     end
 end
