@@ -1,0 +1,35 @@
+name: Update Homebrew Formula
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get release version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Update formula
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          TARBALL_URL="https://github.com/${{ github.repository }}/archive/refs/tags/${VERSION}.tar.gz"
+          TARBALL_SHA256=$(curl -sL $TARBALL_URL | shasum -a 256 | cut -d ' ' -f 1)
+          
+          sed -i 's|url ".*"|url "'$TARBALL_URL'"|' Formula/tms.rb
+          sed -i 's|sha256 ".*"|sha256 "'$TARBALL_SHA256'"|' Formula/tms.rb
+          sed -i 's|assert_match "tms version .*"|assert_match "tms version '${VERSION#v}'"|' Formula/tms.rb
+          
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add Formula/tms.rb
+          git commit -m "Update Homebrew formula to ${VERSION}"
+          git push
