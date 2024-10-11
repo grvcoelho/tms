@@ -3,12 +3,12 @@ class Tms < Formula
   homepage "https://github.com/grvcoelho/tms"
   url "https://github.com/grvcoelho/tms/archive/refs/tags/v1.3.0.tar.gz"
   sha256 "772fe190483870878541702da969c76405ad0ab5df41b7f169d7521bf9f94f8d"
-  license "MIT"
+  license "Apache-2.0"
 
-  depends_on "go" => :build
+  depends_on "rust" => :build
 
   def install
-    system "go", "build", *std_go_args(ldflags: "-s -w")
+    system "cargo", "install", *std_cargo_args
   end
 
   test do
