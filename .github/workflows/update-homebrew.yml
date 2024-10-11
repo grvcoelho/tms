@@ -10,16 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
 
       - name: Get release version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Update formula
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          
           VERSION=${{ steps.get_version.outputs.VERSION }}
           TARBALL_URL="https://github.com/${{ github.repository }}/archive/refs/tags/${VERSION}.tar.gz"
           TARBALL_SHA256=$(curl -sL $TARBALL_URL | shasum -a 256 | cut -d ' ' -f 1)
@@ -28,8 +34,12 @@ jobs:
           sed -i 's|sha256 ".*"|sha256 "'$TARBALL_SHA256'"|' Formula/tms.rb
           sed -i 's|assert_match "tms version .*"|assert_match "tms version '${VERSION#v}'"|' Formula/tms.rb
           
-          git config user.name github-actions
-          git config user.email github-actions@github.com
           git add Formula/tms.rb
           git commit -m "Update Homebrew formula to ${VERSION}"
-          git push
+          git push origin main
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
