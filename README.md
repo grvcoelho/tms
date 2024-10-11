@@ -18,6 +18,7 @@ Features:
 You can install tms using Homebrew:
 
 ```bash
+brew tap grvcoelho/tms https://github.com/grvcoelho/tms.git
 brew install tms
 ```
 
