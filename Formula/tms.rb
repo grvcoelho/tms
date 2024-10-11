@@ -12,6 +12,6 @@ class Tms < Formula
     end
   
     test do
-      assert_match "tms version 1.3.0")
+      assert_match "tms version 1.3.0", shell_output("#{bin}/tms --version")
     end
 end
