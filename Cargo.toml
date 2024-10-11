@@ -1,6 +1,6 @@
 [package]
 name = "tms"
-version = "1.3.1"
+version = "1.3.2"
 edition = "2021"
 authors = ["Guilherme Coelho"]
 description = "A CLI tool for managing tmux sessions with git projects."
