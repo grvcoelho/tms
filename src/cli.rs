@@ -26,6 +26,7 @@ pub struct Cli {
     #[arg(value_name = "TERM")]
     pub term: Option<String>,
 
+    // Open in a new window instead of a new session
     #[arg(long, short = 'w')]
     pub window: bool,
 }
