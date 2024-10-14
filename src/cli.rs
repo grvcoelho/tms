@@ -25,4 +25,7 @@ pub struct Cli {
     /// Optional search term or path to project
     #[arg(value_name = "TERM")]
     pub term: Option<String>,
+
+    #[arg(long, short = 'w')]
+    pub window: bool,
 }

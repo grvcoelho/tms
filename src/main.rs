@@ -36,7 +36,7 @@ fn run() -> Result<()> {
     }
 
     info!("Executing main program logic");
-    program.execute(cli.term)?;
+    program.execute(cli.term, cli.window)?;
 
     info!("Program completed successfully");
     Ok(())

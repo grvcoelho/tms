@@ -21,7 +21,7 @@ impl Program {
         Ok(())
     }
 
-    pub fn execute(&self, term: Option<String>) -> Result<()> {
+    pub fn execute(&self, term: Option<String>, use_window: bool) -> Result<()> {
         let project = Project::new();
         let tmux = Tmux::new();
 
@@ -46,6 +46,8 @@ impl Program {
 
         if !tmux.is_running()? {
             tmux.create_and_attach_session(&session_name, &selected)?;
+        } else if use_window {
+            tmux.create_or_switch_window(&session_name, &selected)?;
         } else {
             tmux.create_or_switch_session(&session_name, &selected)?;
         }
