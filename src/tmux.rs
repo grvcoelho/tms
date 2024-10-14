@@ -35,6 +35,30 @@ impl Tmux {
         Ok(())
     }
 
+    pub fn create_or_switch_window(&self, window_name: &str, path: &str) -> Result<()> {
+        if self.is_inside_tmux() {
+            info!("Switching to window: {}", window_name);
+
+            Command::new("tmux")
+                .args(&["new-window", "-n", window_name, "-c", path])
+                .status()?;
+        } else {
+            info!("Creatint new tmux session with window: {}", window_name);
+
+            Command::new("tmux").args(&[
+                "new-session",
+                "-s",
+                window_name,
+                "-n",
+                window_name,
+                "-c",
+                path,
+            ]);
+        }
+
+        Ok(())
+    }
+
     pub fn create_or_switch_session(&self, session_name: &str, path: &str) -> Result<()> {
         if !self.session_exists(session_name)? {
             info!("Creating new tmux session: {}", session_name);

@@ -56,6 +56,7 @@ ARGS:
 OPTIONS:
     -h, --help       Print help information
     -V, --version    Print version information
+    -w, --window     Open a new window instead of a new session
 ```
 
 ## Acknowledgments
