@@ -6,6 +6,9 @@ class Tms < Formula
   license "Apache-2.0"
 
   depends_on "rust" => :build
+  depends_on "ghq"
+  depends_on "fzf"
+  depends_on "tmux"
 
   def install
     system "cargo", "install", *std_cargo_args
